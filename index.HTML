@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mon Jeu 🔥</title>
 
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+  }
+
+  #player {
+    width: 40px;
+    height: 40px;
+    background: red;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+  }
+
+  #coin {
+    width: 30px;
+    height: 30px;
+    background: yellow;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    border-radius: 50%;
+  }
+
+  #score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 20px;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="player"></div>
+<div id="coin"></div>
+<div id="score">Score: 0</div>
+
+<script>
+let player = document.getElementById("player");
+let coin = document.getElementById("coin");
+let scoreText = document.getElementById("score");
+
+let x = 200;
+let y = 200;
+let score = 0;
+
+document.addEventListener("keydown", function(event) {
+
+  if(event.key === "ArrowRight") x += 10;
+  if(event.key === "ArrowLeft") x -= 10;
+  if(event.key === "ArrowUp") y -= 10;
+  if(event.key === "ArrowDown") y += 10;
+
+  player.style.left = x + "px";
+  player.style.top = y + "px";
+
+  checkCollision();
+});
+
+function checkCollision() {
+  let playerRect = player.getBoundingClientRect();
+  let coinRect = coin.getBoundingClientRect();
+
+  if (
+    playerRect.left < coinRect.right &&
+    playerRect.right > coinRect.left &&
+    playerRect.top < coinRect.bottom &&
+    playerRect.bottom > coinRect.top
+  ) {
+    score++;
+    scoreText.innerHTML = "Score: " + score;
+
+    coin.style.left = Math.random() * (window.innerWidth - 30) + "px";
+    coin.style.top = Math.random() * (window.innerHeight - 30) + "px";
+  }
+}
+</script>
+
+</body>
+</html>
